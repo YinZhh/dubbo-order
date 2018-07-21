@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 添加 DUBBO SCHEMA -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <!-- 当前项目在整个分布式架构里面的唯一名称，计算依赖关系的（如duboo_admin控制中心）owner表示当前项目由谁维护 -->
+    <dubbo:application name="order-provider" owner="yin.zh" />
+    <!--注册中心，dubbo这个服务索要暴露的服务地址的注册中心-->
+    <!--<dubbo:registry address="N/A"/>-->
+    <!--<dubbo:registry address="zookeeper://47.106.137.210:2181"/>-->
+    <!--redis 做注册中心-->
+    <dubbo:registry address="redis://47.106.137.210:6379"/>
+    <!--<dubbo:registry address="zookeeper://47.106.137.210:2181?backup=47.106.137.211:2182"/>-->
+    <!--<dubbo:registry address="zookeeper://47.106.137.210:2181,47.106.137.211:2182"/>-->
+
+    <!--当前服务发布所依赖的的协议：Webservice;Thrift;Hessian;Http-->
+    <dubbo:protocol name="dubbo" port="20880" />
+
+    <!--服务发布的配置 需要暴露的服务的接口-->
+    <dubbo:service interface="org.com.yzh.dubbo.service.IoOrderService" ref="ioOrderService"/>
+    <!--bean的定义-->
+    <bean id="ioOrderService" class="org.com.yzh.dubbo.serviceimpl.IoOrderServiceImpl" />
+</beans>
